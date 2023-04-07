@@ -10,22 +10,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
     if (chatInput.value) {
       socket.emit("chat message", chatInput.value);
-      addChat(chat, chatInput.value);
+      addMessage(chat, chatInput.value);
       chatInput.value = "";
     }
   });
 
   socket.on("new connection", () => {
-    const info = document.createElement("div");
-    info.classList.add("info");
-    info.textContent = "A Roommate connected";
-    chat.appendChild(info);
+    addMessage(chat, "A Roommate connected", {
+      type: "information",
+    });
   });
 
   socket.on("chat message", (msg) => {
-    addChat(chat, msg, { type: "broadcast" });
+    addMessage(chat, msg, { type: "broadcast" });
   });
 });
 
@@ -33,7 +33,7 @@ window.addEventListener("DOMContentLoaded", () => {
  * @param baseChat Base Element to add chat message to
  * @param newChat New chat to add to base element
  */
-function addChat(baseChat, newChat, options = {}) {
+function addMessage(baseChat, newChat, options = {}) {
   if (!baseChat || !newChat) {
     return;
   }
@@ -48,6 +48,11 @@ function addChat(baseChat, newChat, options = {}) {
   if (options.type) {
     if (options.type === "broadcast") {
       newChatEl.classList.add("to-everyone");
+    }
+
+    if (options.type === "information") {
+      const spanEl = document.createElement("span");
+      newChatEl.classList.add("info");
     }
   }
 
