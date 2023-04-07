@@ -81,9 +81,21 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 .chat {
-  max-height: 80vh;
+  max-height: 70vh;
   width: 80vw;
   overflow-y: scroll;
+}
+.chat::-webkit-scrollbar {
+  width: 10px;
+}
+.chat::-webkit-scrollbar-thumb {
+  background: #242424;
+  border-radius: 8px;
+}
+.chat::-webkit-scrollbar-track {
+  background: none;
+  width: 10px;
+  padding: 3px;
 }
 .chat-box {
   position: absolute;
@@ -91,12 +103,11 @@ button:focus-visible {
   right: 0;
   z-index: 999;
   width: 100%;
-  border: #242424 1px solid;
+  /* border: #242424 1px solid; */
 }
 .chat-box .container {
   padding: 0;
   display: flex;
-  margin: 0 1em;
   justify-content: space-between;
 }
 .chat-box .chat-input {
@@ -123,11 +134,14 @@ button:focus-visible {
   font-size: .5rem;
   position: relative;
   top: -30px;
-  left: -55px;
+  left: -140px;
   padding: .5em;
   border-radius: 8px;
   background: blue;
   color: #f9f9f9;
+}
+#send {
+  border-radius: 8px;
 }
 .info {
   font-size: .8rem;
