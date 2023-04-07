@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: hsla(0, 0%, 100%, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
@@ -13,7 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
+*, ::before, ::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -22,27 +26,26 @@ a {
 a:hover {
   color: #535bf2;
 }
-
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  max-height: 100vh;
+  overflow-x: hidden;
 }
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
-
+#app .container {
+  padding: 2rem;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -55,18 +58,13 @@ h1 {
 .logo.vanilla:hover {
   filter: drop-shadow(0 0 2em #f7df1eaa);
 }
-
 .card {
   padding: 2em;
 }
-
 .read-the-docs {
   color: #888;
 }
-
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
@@ -81,6 +79,73 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+.chat {
+  max-height: 80vh;
+  width: 80vw;
+  overflow-y: scroll;
+}
+.chat-box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  width: 100%;
+  border: #242424 1px solid;
+}
+.chat-box .container {
+  padding: 0;
+  display: flex;
+  margin: 0 1em;
+  justify-content: space-between;
+}
+.chat-box .chat-input {
+  width: 95%;
+  border: none;
+  padding: .4em .8em;
+  font-size: 1.5rem;
+}
+.chat-bubble {
+  padding: 1em 2em;
+  background: hsl(350, 100%, 88%);
+  margin-bottom: 1em;
+  border-radius: .4em;
+  list-style-type: none;
+}
+.chat-bubble:first-of-type {
+  margin-top: 1em;
+}
+.chat-bubble.to-everyone {
+  background: hsl(106, 96%, 80%);
+}
+.chat-bubble.to-everyone::after {
+  content: "To everyone";
+  font-size: .5rem;
+  position: relative;
+  top: -30px;
+  left: -55px;
+  padding: .5em;
+  border-radius: 8px;
+  background: blue;
+  color: #f9f9f9;
+}
+.info {
+  font-size: .8rem;
+  margin-bottom: 1em;
+}
+.info::before, .info::after {
+  content: "";
+  height: 2px;
+  width: 100px;
+  position: absolute;
+  top: 0;
+  background: #000;
+}
+.info::before {
+  right: -10px;
+}
+.info::after {
+  left: 0;
 }
 
 @media (prefers-color-scheme: light) {

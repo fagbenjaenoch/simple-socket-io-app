@@ -5,10 +5,13 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="stylesheet" href="/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Room C1 😎</title>
   </head>
   <body>
     <div id="app">
+      <div class="container">
+        <div class="chat"></div>
+      </div>
       <!-- <a href="https://vitejs.dev" target="_blank">
         <img src="/vite.svg" class="logo" alt="Vite logo" />
       </a>
@@ -23,10 +26,15 @@
         <button id="counter" type="button"></button>
       </div>
       <p class="read-the-docs">Click on the Vite logo to learn more</p> -->
-      <div class="chat"></div>
-      <form>
-        <input type="text" class="chat-box" />
-        <button type="submit" id="send">Send</button>
+      <form class="chat-box">
+        <div class="container">
+          <input
+            type="text"
+            class="chat-input"
+            placeholder="Write something..."
+          />
+          <button type="submit" id="send">Send</button>
+        </div>
       </form>
     </div>
     <script type="module" src="/main.js"></script>

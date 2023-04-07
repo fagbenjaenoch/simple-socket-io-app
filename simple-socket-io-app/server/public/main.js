@@ -1,9 +1,8 @@
 import { setupCounter } from "./counter.js";
 const form = document.querySelector("form");
 const chat = document.querySelector(".chat");
-const chatBox = document.querySelector(".chat-box");
+const chatInput = document.querySelector(".chat-input");
 // const counter = document.querySelector("#counter");
-
 // setupCounter(counter);
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -11,11 +10,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (chatBox.value) {
-      socket.emit("chat message", chatBox.value);
-      addChat(chat, chatBox.value);
-      chatBox.value = "";
+    if (chatInput.value) {
+      socket.emit("chat message", chatInput.value);
+      addChat(chat, chatInput.value);
+      chatInput.value = "";
     }
+  });
+
+  socket.on("new connection", () => {
+    const info = document.createElement("div");
+    info.classList.add("info");
+    info.textContent = "A Roommate connected";
+    chat.appendChild(info);
+  });
+
+  socket.on("chat message", (msg) => {
+    addChat(chat, msg, { type: "broadcast" });
   });
 });
 
@@ -23,7 +33,7 @@ window.addEventListener("DOMContentLoaded", () => {
  * @param baseChat Base Element to add chat message to
  * @param newChat New chat to add to base element
  */
-function addChat(baseChat, newChat) {
+function addChat(baseChat, newChat, options = {}) {
   if (!baseChat || !newChat) {
     return;
   }
@@ -34,6 +44,14 @@ function addChat(baseChat, newChat) {
 
   const newChatEl = document.createElement("li");
   newChatEl.classList.add("chat-bubble");
+
+  if (options.type) {
+    if (options.type === "broadcast") {
+      newChatEl.classList.add("to-everyone");
+    }
+  }
+
   newChatEl.textContent = newChat;
   baseChat.appendChild(newChatEl);
+  // window.scrollTo(document.)
 }
