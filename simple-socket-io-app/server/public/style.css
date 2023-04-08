@@ -43,7 +43,7 @@ h1 {
   margin: 0 auto;
   text-align: center;
 }
-#app .container {
+.container {
   padding: 2rem;
 }
 .logo {
@@ -81,7 +81,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 .chat {
-  max-height: 70vh;
+  max-height: 75vh;
   width: 80vw;
   overflow-y: scroll;
 }
@@ -103,18 +103,22 @@ button:focus-visible {
   right: 0;
   z-index: 999;
   width: 100%;
-  /* border: #242424 1px solid; */
+  min-height: 2em;
+  box-shadow: 0px 5px 10px 5px#4d4d4d;
 }
 .chat-box .container {
-  padding: 0;
+  padding: .5em 1em;
   display: flex;
   justify-content: space-between;
 }
 .chat-box .chat-input {
-  width: 95%;
+  width: 80%;
   border: none;
+  border-radius: 8px;
   padding: .4em .8em;
   font-size: 1.5rem;
+  background: #e4e4e4;
+  outline: none;
 }
 .chat-bubble {
   padding: 1em 2em;
@@ -142,6 +146,12 @@ button:focus-visible {
 }
 #send {
   border-radius: 8px;
+  background: hsl(106, 96%, 75%);
+  border: none;
+  transition: 300ms ease;
+}
+#send:hover {
+  background: hsl(106, 96%, 85%);;
 }
 .info {
   font-size: .8rem;
