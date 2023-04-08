@@ -51,8 +51,8 @@ function addMessage(baseChat, newChat, options = {}) {
     }
 
     if (options.type === "information") {
-      const spanEl = document.createElement("span");
       newChatEl.classList.add("info");
+      newChatEl.classList.remove("chat-bubble");
     }
   }
 
