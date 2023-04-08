@@ -24,6 +24,12 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  socket.on("user disconnection", () => {
+    addMessage(chat, "A Roommate just left", {
+      type: "information",
+    });
+  });
+
   socket.on("chat message", (msg) => {
     addMessage(chat, msg, { type: "broadcast" });
   });
