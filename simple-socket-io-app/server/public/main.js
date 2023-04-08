@@ -49,11 +49,13 @@ function addMessage(baseChat, newChat, options = {}) {
   }
 
   const newChatEl = document.createElement("li");
+  const content = document.createElement("div");
   newChatEl.classList.add("chat-bubble");
+  content.className = "content to-everyone sent";
 
   if (options.type) {
     if (options.type === "broadcast") {
-      newChatEl.classList.add("to-everyone");
+      content.className = "content to-everyone received";
     }
 
     if (options.type === "information") {
@@ -61,8 +63,7 @@ function addMessage(baseChat, newChat, options = {}) {
       newChatEl.classList.remove("chat-bubble");
     }
   }
-
-  newChatEl.textContent = newChat;
-  baseChat.appendChild(newChatEl);
-  // window.scrollTo(document.)
+  content.textContent = newChat;
+  newChatEl.appendChild(content);
+  chat.appendChild(newChatEl);
 }

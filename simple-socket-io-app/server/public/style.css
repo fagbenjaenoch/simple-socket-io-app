@@ -85,7 +85,7 @@ button:focus-visible {
   overflow-y: scroll;
 }
 .chat::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 .chat::-webkit-scrollbar-thumb {
   background: #242424;
@@ -120,17 +120,25 @@ button:focus-visible {
   outline: none;
 }
 .chat-bubble {
-  padding: 1em 2em;
-  background: hsl(350, 100%, 88%);
   margin-bottom: 1em;
-  border-radius: .4em;
   list-style-type: none;
+  display: grid;
+}
+.chat-bubble .content.to-everyone:where(.sent, .received){
+  padding: 1em 1em;
+  background: hsl(350, 100%, 88%);
+  border-radius: .4em;
+  display: flex;
+  width: fit-content;
+  /* max-width: 6em; */
+  justify-content: left;
+}
+.chat-bubble .content.to-everyone.received {
+  background: hsl(106, 96%, 80%);
+  justify-self: flex-end;
 }
 .chat-bubble:first-of-type {
   margin-top: 1em;
-}
-.chat-bubble.to-everyone {
-  background: hsl(106, 96%, 80%);
 }
 .chat-bubble.to-everyone::before {
   content: "@everyone";
