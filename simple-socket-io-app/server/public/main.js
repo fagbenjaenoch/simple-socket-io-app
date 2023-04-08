@@ -1,6 +1,6 @@
 import { setupCounter } from "./counter.js";
 const form = document.querySelector("form");
-const chat = document.querySelector(".chat");
+const chat = document.querySelector(".chat .container");
 const chatInput = document.querySelector(".chat-input");
 // const counter = document.querySelector("#counter");
 // setupCounter(counter);
