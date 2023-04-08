@@ -14,6 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (chatInput.value) {
       socket.emit("chat message", chatInput.value);
       addMessage(chat, chatInput.value);
+      addMessageToLocalStorage(chatInput.value);
       chatInput.value = "";
     }
   });
@@ -32,12 +33,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
   socket.on("chat message", (msg) => {
     addMessage(chat, msg, { type: "broadcast" });
+    addMessageToLocalStorage(msg);
   });
 });
 
 /**
- * @param baseChat Base Element to add chat message to
- * @param newChat New chat to add to base element
+ * @param {String} baseChat Element to add chat message to
+ * @param {String} newChat chat to add to base element
+ * @param {object} options options for additional functionality
  */
 function addMessage(baseChat, newChat, options = {}) {
   if (!baseChat || !newChat) {
@@ -66,4 +69,34 @@ function addMessage(baseChat, newChat, options = {}) {
   content.textContent = newChat;
   newChatEl.appendChild(content);
   chat.appendChild(newChatEl);
+}
+
+/**
+ * @param {string} message message to add to local storage
+ * @returns
+ */
+function addMessageToLocalStorage(message) {
+  if (!(localStorage in window)) {
+    return;
+  }
+
+  let previousMessages = getMessageFromLocalStorage();
+  previousMessages = JSON.parse(previousMessages);
+  if (typeof previousMessages !== "Array" || !previousMessages.length()) {
+    previousMessages = [];
+  }
+  let allMessages = [...previousMessages, { message }];
+  allMessages = JSON.stringify(allMessages);
+  localStorage.setItem("dee-em", allMessages);
+}
+
+/**
+ * @returns {Object}
+ */
+function getMessageFromLocalStorage() {
+  if (!(localStorage in window)) {
+    return;
+  }
+
+  return JSON.parse(localStorage.getItem("dee-em"));
 }

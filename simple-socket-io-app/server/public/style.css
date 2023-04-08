@@ -131,11 +131,11 @@ button:focus-visible {
   display: flex;
   width: fit-content;
   /* max-width: 6em; */
-  justify-content: left;
+  justify-self: flex-end;
 }
 .chat-bubble .content.to-everyone.received {
   background: hsl(106, 96%, 80%);
-  justify-self: flex-end;
+  justify-self: flex-start;
 }
 .chat-bubble:first-of-type {
   margin-top: 1em;
