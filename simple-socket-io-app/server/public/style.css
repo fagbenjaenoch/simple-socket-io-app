@@ -146,31 +146,14 @@ button:focus-visible {
 .info {
   font-size: .8rem;
   padding: .2em;
+  margin: 0 auto;
   margin-bottom: 1em;
   color: #bababa;
   list-style-type: none;
   border: 1px solid #bababa;
   border-radius: 8px;
   width: max-content;
-  margin: 0 auto;
 }
-/* .info::before, .info::after {
-  content: "";
-  height: 2px;
-  width: 80px;
-  display: block;
-  position: relative;
-  top: 10px;
-  background: #bababa;
-  z-index: 1;
-}
-.info::before {
-  right: 21px;
-}
-.info::after {
-  right: 21px;
-  top: -10px;
-} */
 
 @media (prefers-color-scheme: light) {
   :root {
