@@ -7,14 +7,19 @@ const chatInput = document.querySelector(".chat-input");
 
 window.addEventListener("DOMContentLoaded", () => {
   const socket = new io();
+  loadMessages(chat, getMessageFromLocalStorage());
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-
-    if (chatInput.value) {
-      socket.emit("chat message", chatInput.value);
-      addMessage(chat, chatInput.value);
-      addMessageToLocalStorage(chatInput.value);
+    let chatMessage = chatInput.value;
+    const chatMessageObject = {
+      message: chatMessage,
+    };
+    if (chatMessage) {
+      socket.emit("chat message", chatMessage);
+      addMessage(chat, chatMessage);
+      addMessageToLocalStorage(chatMessageObject);
+      // TODO: Think on whether the addMessageToLocalStorage should be added to the addMessage function
       chatInput.value = "";
     }
   });
@@ -33,7 +38,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
   socket.on("chat message", (msg) => {
     addMessage(chat, msg, { type: "broadcast" });
-    addMessageToLocalStorage(msg);
+    const messageObject = {
+      message: msg,
+      type: "broadcast",
+    };
+    addMessageToLocalStorage(messageObject);
   });
 });
 
@@ -75,7 +84,7 @@ function addMessage(baseChat, newChat, options = {}) {
  * @param {string} message message to add to local storage
  * @returns
  */
-function addMessageToLocalStorage(message) {
+function addMessageToLocalStorage({ message, type }) {
   if (!(localStorage in window)) {
     return;
   }
@@ -85,7 +94,7 @@ function addMessageToLocalStorage(message) {
   if (typeof previousMessages !== "Array" || !previousMessages.length()) {
     previousMessages = [];
   }
-  let allMessages = [...previousMessages, { message }];
+  let allMessages = [...previousMessages, { message, type }];
   allMessages = JSON.stringify(allMessages);
   localStorage.setItem("dee-em", allMessages);
 }
@@ -99,4 +108,34 @@ function getMessageFromLocalStorage() {
   }
 
   return JSON.parse(localStorage.getItem("dee-em"));
+}
+
+/**
+ * @param {HTMLElement} base what to add the `from` to
+ * @param {Array} from what to add to the base
+ */
+function loadMessages(base, from) {
+  if (!(typeof base !== "HTMLElement") || !(typeof from !== "Array")) {
+    return;
+  }
+
+  if (from.length === 0) {
+    addMessage(chat, "This is a new conversation 💡", { type: "information" });
+    return;
+  }
+
+  from.forEach(({ message, type }) => {
+    const msgEl = document.createElement("li");
+    const content = document.createElement("div");
+
+    msgEl.className = "chat-bubble";
+    if (type === "broadcast") {
+      content.className = "content to-everyone received";
+    }
+    content.className = "content to-everyone sent";
+    content.textContent = message;
+    msgEl.appendChild(content);
+
+    base.appendChild(msgEl);
+  });
 }
