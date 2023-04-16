@@ -5,9 +5,9 @@ const chatInput = document.querySelector(".chat-input");
 // const counter = document.querySelector("#counter");
 // setupCounter(counter);
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   const socket = new io();
-  loadMessages(chat, getMessageFromLocalStorage());
+  await loadMessages(chat, getMessageFromLocalStorage());
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -68,16 +68,18 @@ function addMessage(baseChat, newChat, options = {}) {
   if (options.type) {
     if (options.type === "broadcast") {
       content.className = "content to-everyone received";
+      addMessageToLocalStorage({ newChat, type: "broadcast" });
     }
 
     if (options.type === "information") {
-      newChatEl.classList.add("info");
-      newChatEl.classList.remove("chat-bubble");
+      newChatEl.className = "info";
+      addMessageToLocalStorage({ newChat, type: "information" });
     }
   }
   content.textContent = newChat;
   newChatEl.appendChild(content);
   chat.appendChild(newChatEl);
+  newChatEl.scrollTop = newChatEl.scrollHeight;
 }
 
 /**
@@ -107,19 +109,24 @@ function getMessageFromLocalStorage() {
     return;
   }
 
-  return JSON.parse(localStorage.getItem("dee-em"));
+  let messages = JSON.parse(localStorage.getItem("dee-em"));
+  if (!messages) {
+    localStorage.setItem("dee-em", JSON.stringify([]));
+    return;
+  }
+  return messages;
 }
 
 /**
  * @param {HTMLElement} base what to add the `from` to
  * @param {Array} from what to add to the base
  */
-function loadMessages(base, from) {
+async function loadMessages(base, from) {
   if (!(typeof base !== "HTMLElement") || !(typeof from !== "Array")) {
     return;
   }
 
-  if (from.length === 0) {
+  if (!Array.isArray(from)) {
     addMessage(chat, "This is a new conversation 💡", { type: "information" });
     return;
   }
@@ -131,10 +138,12 @@ function loadMessages(base, from) {
     msgEl.className = "chat-bubble";
     if (type === "broadcast") {
       content.className = "content to-everyone received";
+      content.className = "content to-everyone sent";
+      content.textContent = message;
+      msgEl.appendChild(content);
+    } else if (type === "information") {
+      msgEl.className = "info";
     }
-    content.className = "content to-everyone sent";
-    content.textContent = message;
-    msgEl.appendChild(content);
 
     base.appendChild(msgEl);
   });
