@@ -1,13 +1,14 @@
 import { setupCounter } from "./counter.js";
 const form = document.querySelector("form");
-const chat = document.querySelector(".chat .container");
+const chat = document.querySelector(".chat");
+const chatContainer = document.querySelector(".chat .container");
 const chatInput = document.querySelector(".chat-input");
 // const counter = document.querySelector("#counter");
 // setupCounter(counter);
 
 window.addEventListener("DOMContentLoaded", async () => {
   const socket = new io();
-  await loadMessages(chat, getMessageFromLocalStorage());
+  await loadMessages(chatContainer, getMessageFromLocalStorage());
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     };
     if (chatMessage) {
       socket.emit("chat message", chatMessage);
-      addMessage(chat, chatMessage);
+      addMessage(chatContainer, chatMessage);
       addMessageToLocalStorage(chatMessageObject);
       // TODO: Think on whether the addMessageToLocalStorage should be added to the addMessage function
       chatInput.value = "";
@@ -25,19 +26,19 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 
   socket.on("new connection", () => {
-    addMessage(chat, "A Roommate connected", {
+    addMessage(chatContainer, "A Roommate connected", {
       type: "information",
     });
   });
 
   socket.on("user disconnection", () => {
-    addMessage(chat, "A Roommate just left", {
+    addMessage(chatContainer, "A Roommate just left", {
       type: "information",
     });
   });
 
   socket.on("chat message", (msg) => {
-    addMessage(chat, msg, { type: "broadcast" });
+    addMessage(chatContainer, msg, { type: "broadcast" });
     const messageObject = {
       message: msg,
       type: "broadcast",
@@ -78,8 +79,8 @@ function addMessage(baseChat, newChat, options = {}) {
   }
   content.textContent = newChat;
   newChatEl.appendChild(content);
-  chat.appendChild(newChatEl);
-  newChatEl.scrollTop = newChatEl.scrollHeight;
+  chatContainer.appendChild(newChatEl);
+  chat.scrollTop = chat.scrollHeight;
 }
 
 /**
@@ -127,7 +128,9 @@ async function loadMessages(base, from) {
   }
 
   if (!Array.isArray(from)) {
-    addMessage(chat, "This is a new conversation 💡", { type: "information" });
+    addMessage(chatContainer, "This is a new conversation 💡", {
+      type: "information",
+    });
     return;
   }
 

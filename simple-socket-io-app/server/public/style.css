@@ -133,10 +133,12 @@ button:focus-visible {
   width: fit-content;
   /* max-width: 6em; */
   justify-self: flex-end;
+  box-shadow: 1px 1px 5px  hsl(0deg 0% 82.52% / 87%);
 }
 .chat-bubble .content.to-everyone.received {
   background: hsl(106, 96%, 80%);
   justify-self: flex-start;
+  box-shadow: 1px 1px 5px  hsl(0deg 0% 82.52% / 87%);
 }
 .chat-bubble:first-of-type {
   margin-top: 1em;
