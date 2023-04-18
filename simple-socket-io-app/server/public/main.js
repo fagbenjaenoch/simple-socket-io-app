@@ -45,8 +45,16 @@ window.addEventListener("DOMContentLoaded", async () => {
     };
     addMessageToLocalStorage(messageObject);
   });
-});
 
+  // TODO: work on the ux, not everytime you ask for permission
+  Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+      addMessage(chatContainer, "Notifications are now enabled 💬", {
+        type: "information",
+      });
+    }
+  });
+});
 /**
  * @param {String} baseChat Element to add chat message to
  * @param {String} newChat chat to add to base element
@@ -83,6 +91,11 @@ function addMessage(baseChat, newChat, options = {}) {
   chat.scrollTo({
     top: chat.scrollHeight,
     behavior: "smooth",
+  });
+
+  new Notification("A new message from a roommate", {
+    body: newChat,
+    image: "./vite.svg",
   });
 }
 
