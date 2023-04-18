@@ -80,7 +80,10 @@ function addMessage(baseChat, newChat, options = {}) {
   content.textContent = newChat;
   newChatEl.appendChild(content);
   chatContainer.appendChild(newChatEl);
-  chat.scrollTop = chat.scrollHeight;
+  chat.scrollTo({
+    top: chat.scrollHeight,
+    behavior: "smooth",
+  });
 }
 
 /**
