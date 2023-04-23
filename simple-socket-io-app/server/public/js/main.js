@@ -48,7 +48,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     addMessageToLocalStorage(messageObject);
   });
 
-  // TODO: work on the ux, not everytime you ask for permission
+  // TODO: work on the ux, not every time you ask for permission
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
       addMessage(chatContainer, "Notifications are now enabled 💬", {
@@ -57,3 +57,5 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 });
+
+console.log("Hello");

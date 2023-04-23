@@ -1,3 +1,5 @@
+import addMessageToLocalStorage from "./addMessageToLocalStorage";
+
 /**
  * @param {String} baseChat Element to add chat message to
  * @param {String} newChat chat to add to base element
@@ -36,10 +38,10 @@ function addMessage(baseChat, newChat, options = {}) {
     behavior: "smooth",
   });
 
-  new Notification("A new message from a roommate", {
-    body: newChat,
-    image: "./vite.svg",
-  });
+  // new Notification("A new message from a roommate", {
+  //   body: newChat,
+  //   image: "./vite.svg",
+  // });
 }
 
 export default addMessage;

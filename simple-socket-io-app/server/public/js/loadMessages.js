@@ -1,3 +1,5 @@
+import addMessage from "./addMessage";
+
 /**
  * @param {HTMLElement} base what to add the `from` to
  * @param {Array} from what to add to the base
